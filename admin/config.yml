@@ -19,7 +19,8 @@ collections:
         label: Homepage
         file: src/content/pages/home.json
         fields:
-          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - { name: metaTitle, label: "SEO title", widget: string, required: false, hint: "Shown as the headline in Google results and on the browser tab. Aim for under 60 characters. Leave empty to use the default: Raven Sound | Live sound engineering, PA hire and recording." }
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text, hint: "The short summary under the title in Google results. Aim for under 160 characters." }
           - name: heroImages
             label: "Top of page: background photos"
             label_singular: photo
@@ -133,7 +134,8 @@ collections:
     reorder: true
     fields:
       - { name: title, label: Title, widget: string, hint: "Also used as the footer link text" }
-      - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+      - { name: metaTitle, label: "SEO title", widget: string, required: false, hint: "Shown as the headline in Google results and on the browser tab. Aim for under 60 characters. Leave empty to use the default: the page title followed by | Raven Sound." }
+      - { name: metaDescription, label: "Meta description (for search engines)", widget: text, hint: "The short summary under the title in Google results. Aim for under 160 characters." }
       - { name: body, label: "Policy text", widget: markdown }
 
   - name: settings
