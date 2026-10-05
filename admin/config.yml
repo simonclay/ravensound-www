@@ -1,0 +1,160 @@
+# Sveltia CMS config: the content types editors see and the fields in each
+# form. Field names must match src/schemas.ts. See README.md.
+
+backend:
+  name: github
+  repo: simonclay/ravensound-source # Set per site: the site's private source repo
+  branch: main
+  # base_url: https://YOUR-AUTHENTICATOR.workers.dev  # only needed for real (non-local) GitHub login
+
+media_folder: public/assets/images/uploads
+public_folder: /assets/images/uploads
+
+collections:
+  - name: pages
+    label: Pages
+    icon: description
+    files:
+      - name: home
+        label: Homepage
+        file: src/content/pages/home.json
+        fields:
+          - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+          - name: heroImages
+            label: "Top of page: background photos"
+            label_singular: photo
+            widget: list
+            hint: "Shown in black and white behind the logo, slowly fading from one to the next."
+            fields:
+              - { name: image, label: Photo, widget: image }
+
+          - { name: aboutEyebrow, label: "About: small label", widget: string, required: false }
+          - { name: aboutTitle, label: "About: heading", widget: string }
+          - { name: aboutBody, label: "About: text (leave a blank line between paragraphs)", widget: text }
+          - name: aboutPhotos
+            label: "About: photos"
+            label_singular: photo
+            widget: list
+            summary: "{{alt}}"
+            hint: "The first photo is shown large, the rest in pairs underneath. They show in black and white until the mouse is over them."
+            fields:
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: "Description (read out by screen readers)", widget: string, required: false }
+
+          - { name: showServices, label: "Services: show this section", widget: boolean, default: true }
+          - { name: servicesEyebrow, label: "Services: small label", widget: string, required: false }
+          - { name: servicesTitle, label: "Services: heading", widget: string }
+          - name: services
+            label: "Services"
+            label_singular: service
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: body, label: Text, widget: markdown, modes: [rich_text], buttons: [bold, italic, link, bulleted-list], editor_components: [] }
+          - { name: servicesClosing, label: "Services: closing line", widget: text, required: false }
+
+          - { name: showTestimonials, label: "Testimonials: show this section", widget: boolean, default: true }
+          - { name: testimonialsEyebrow, label: "Testimonials: small label", widget: string, required: false }
+          - { name: testimonialsTitle, label: "Testimonials: heading", widget: string }
+          - { name: testimonialsVisible, label: "Testimonials: how many to show before “Show all”", widget: number, value_type: int, min: 0, default: 6, hint: "0 shows them all." }
+          - name: testimonials
+            label: "Testimonials"
+            label_singular: testimonial
+            widget: list
+            summary: "{{name}}"
+            hint: "Only add testimonials that real customers have given you."
+            fields:
+              - { name: quote, label: "Testimonial (leave a blank line between paragraphs, no quote marks needed)", widget: text }
+              - { name: name, label: Name, widget: string }
+              - { name: role, label: "Role and band", widget: string, required: false, hint: "e.g. Drummer for The Underground" }
+
+          - { name: showGallery, label: "Gallery: show this section", widget: boolean, default: true }
+          - { name: galleryEyebrow, label: "Gallery: small label", widget: string, required: false }
+          - { name: galleryTitle, label: "Gallery: heading", widget: string }
+          - name: gallery
+            label: "Gallery photos"
+            label_singular: photo
+            widget: list
+            summary: "{{alt}}"
+            fields:
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: "Description (read out by screen readers)", widget: string, required: false }
+
+          - { name: showAudio, label: "Audio: show this section", widget: boolean, default: true, hint: "The section also stays hidden until a player has at least one track." }
+          - { name: audioEyebrow, label: "Audio: small label", widget: string, required: false }
+          - { name: audioTitle, label: "Audio: heading", widget: string }
+          - { name: audioIntro, label: "Audio: intro", widget: string, required: false }
+          - name: playlists
+            label: "Audio players"
+            label_singular: player
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: "Player title", widget: string }
+              - name: tracks
+                label: Tracks
+                label_singular: track
+                widget: list
+                summary: "{{title}}"
+                fields:
+                  - { name: title, label: Title, widget: string }
+                  - { name: file, label: "Audio file (MP3)", widget: file, media_folder: /public/assets/audio, public_folder: /assets/audio }
+
+          - { name: contactEyebrow, label: "Contact: small label", widget: string, required: false }
+          - { name: contactTitle, label: "Contact: heading", widget: string }
+          - { name: contactImage, label: "Contact: photo", widget: image, required: false }
+          - { name: contactImageAlt, label: "Contact: photo description (read out by screen readers)", widget: string, required: false }
+          - { name: contactIntro, label: "Contact: intro", widget: text }
+          - { name: contactEmail, label: "Contact: email address shown on the page", widget: string, required: false }
+          - { name: contactFormTitle, label: "Contact form: heading", widget: string }
+          - { name: contactFormKey, label: "Contact form: Web3Forms access key", widget: string, required: false, hint: "From web3forms.com. Enquiries are emailed to the address the key was created for; to change where they go, create a new key for the new address and paste it here. Leave empty and the form shows greyed out, asking people to email instead." }
+          - name: serviceOptions
+            label: "Contact form: “Service required” choices"
+            label_singular: choice
+            widget: list
+            field: { name: option, label: Choice, widget: string }
+          - { name: messageHint, label: "Contact form: note above the message box", widget: string, required: false }
+          - { name: contactThanks, label: "Contact form: thank-you message", widget: text, hint: "Shown in place of the form once a message has been sent." }
+
+  - name: legal
+    label: Legal
+    icon: gavel
+    label_singular: Legal page
+    folder: src/content/legal
+    create: true
+    format: frontmatter
+    extension: md
+    # Editable: the pencil next to the title renames the page's web address.
+    # Once a site is live, changing it breaks links to the old address.
+    slug:
+      template: "{{slug}}"
+      editable: true
+    reorder: true
+    fields:
+      - { name: title, label: Title, widget: string, hint: "Also used as the footer link text" }
+      - { name: metaDescription, label: "Meta description (for search engines)", widget: text }
+      - { name: body, label: "Policy text", widget: markdown }
+
+  - name: settings
+    label: Site settings
+    icon: settings
+    files:
+      - name: site
+        label: Site settings
+        file: src/content/settings/site.json
+        fields:
+          - name: footerScripts
+            label: "Footer scripts"
+            label_singular: "script"
+            widget: list
+            required: false
+            summary: "{{name}}"
+            hint: "Extra code that runs on every page of the website, such as a feedback widget, live chat or a marketing tracking code. Only paste code from services you trust. For Google Analytics, use the Google Analytics ID field below instead."
+            fields:
+              - { name: name, label: "Name (for your reference)", widget: string }
+              - { name: code, label: "Code", widget: code, default_language: html, output_code_only: true, allow_language_selection: false }
+              - { name: enabled, label: "Switched on", widget: boolean, default: false }
+              - { name: needsConsent, label: "Only load after cookie consent", widget: boolean, default: true, hint: "Leave on for anything that tracks visitors (analytics, ads, heatmaps, chat widgets that set cookies). Turn off only for scripts that set no cookies." }
+          - { name: analyticsId, label: "Google Analytics ID", widget: string, required: false, hint: "e.g. G-ABC123XYZ. Leave empty to turn off analytics and the cookie banner. Analytics only records visits on the live domain, and only after a visitor accepts cookies." }
+          - { name: cookieBannerText, label: "Cookie banner text", widget: text, required: false, hint: "Shown with Accept / Reject buttons and a link to the cookie policy." }

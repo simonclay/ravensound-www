@@ -1,0 +1,68 @@
+/* Header: the six section names spread along the top, fixed over the page. */
+
+.rs-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
+  transition: background var(--transition-base);
+}
+
+.rs-header.is-scrolled {
+  background: rgba(0, 0, 0, 0.92);
+  border-bottom: 1px solid var(--border-dark-soft);
+}
+
+.rs-nav {
+  display: flex;
+  justify-content: space-between;
+  max-width: 64rem;
+  margin-inline: auto;
+  padding: var(--space-5) var(--section-padding-x);
+}
+
+.rs-nav__link {
+  position: relative;
+  padding-block: var(--space-1);
+  font-size: var(--text-xl-alt);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-on-dark);
+}
+
+/* Red underline on hover, and on the section currently on screen. */
+.rs-nav__link::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--color-pink);
+  transform: scaleX(0);
+  transition: transform var(--transition-base);
+}
+
+.rs-nav__link:hover,
+.rs-nav__link[aria-current] {
+  color: var(--color-white);
+}
+
+.rs-nav__link:hover::after,
+.rs-nav__link[aria-current]::after {
+  transform: scaleX(1);
+}
+
+@media (max-width: 640px) {
+  .rs-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-1) var(--space-4);
+    padding-block: var(--space-3);
+    text-align: center;
+  }
+
+  .rs-nav__link {
+    justify-self: center;
+    font-size: var(--text-md);
+  }
+}

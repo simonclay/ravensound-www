@@ -1,0 +1,59 @@
+/* Site footer: logo, legal links, copyright and the trademark line, all
+   centred. */
+
+.rs-footer {
+  padding-block: var(--space-16) var(--space-10);
+  border-top: 1px solid var(--border-dark-soft);
+  background: var(--bg-footer);
+  text-align: center;
+  color: var(--color-muted-on-dark);
+}
+
+.rs-footer__inner {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+}
+
+.rs-footer__logo {
+  margin-bottom: var(--space-4);
+}
+
+.rs-footer__logo img {
+  width: auto;
+  height: 6rem;
+}
+
+.rs-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2) var(--space-6);
+  margin-bottom: var(--space-2);
+}
+
+.rs-footer__legal a,
+.site-footer__consent {
+  color: var(--color-body-on-dark);
+}
+
+.rs-footer__legal a:hover,
+.site-footer__consent:hover {
+  color: var(--color-white);
+}
+
+.site-footer__consent {
+  padding: 0;
+  font: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.site-footer__consent[hidden] {
+  display: none;
+}
+
+.rs-footer__small {
+  font-size: var(--text-md);
+}
