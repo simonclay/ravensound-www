@@ -146,6 +146,8 @@ collections:
         label: Site settings
         file: src/content/settings/site.json
         fields:
+          - { name: headingFont, label: "Heading font", widget: string, default: "Metal Mania", hint: "Any font from fonts.google.com. Type its name exactly as shown there, e.g. Oswald. The original is Metal Mania. Changes show on the website about two minutes after saving." }
+          - { name: bodyFont, label: "Body font", widget: string, default: "Barlow Condensed", hint: "Any font from fonts.google.com, typed exactly as shown there, e.g. Roboto Condensed. Narrow (condensed) fonts suit this design best. The original is Barlow Condensed." }
           - name: footerScripts
             label: "Footer scripts"
             label_singular: "script"

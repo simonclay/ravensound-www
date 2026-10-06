@@ -61,8 +61,11 @@
     text-align: center;
   }
 
+  /* Shrinks a little on narrow phones, so wider fonts chosen in Site
+     settings still fit three to a row. */
   .rs-nav__link {
     justify-self: center;
-    font-size: var(--text-md);
+    font-size: min(var(--text-md), 3.9vw);
+    letter-spacing: var(--tracking-wide);
   }
 }
