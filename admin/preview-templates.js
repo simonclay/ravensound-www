@@ -257,6 +257,15 @@ function livePreview(route) {
         return false;
       }
 
+      // The fonts (Site settings) live in <head>, outside <main>: swap the
+      // tags marked data-site-fonts when they've changed.
+      const fresh = next.ownerDocument.querySelectorAll('head [data-site-fonts]');
+      doc.querySelectorAll('head [data-site-fonts]').forEach((el, i) => {
+        if (fresh[i] && fresh[i].outerHTML !== el.outerHTML) {
+          el.replaceWith(doc.importNode(fresh[i], true));
+        }
+      });
+
       if (next.children.length === prev.children.length) {
         patchChildren(main, prev, next);
       } else {
