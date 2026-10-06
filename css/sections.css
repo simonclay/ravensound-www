@@ -238,15 +238,6 @@ body {
   border-bottom: 1px solid var(--border-dark);
 }
 
-.rs-service__number {
-  display: block;
-  margin-bottom: var(--space-2);
-  font-size: var(--text-md);
-  font-weight: 700;
-  letter-spacing: var(--tracking-widest);
-  color: var(--color-eyebrow);
-}
-
 .rs-service__title {
   font-family: var(--font-display);
   font-size: clamp(2rem, 3.5vw, var(--text-h2-sm));
