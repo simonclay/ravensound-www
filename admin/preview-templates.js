@@ -362,8 +362,8 @@ function livePreview(route) {
   });
 }
 
-// One per Sveltia collection, or per file in a file collection ("home" in
-// Pages, "site" in Site settings, which previews the homepage's fonts).
+// One per Sveltia collection, or per singleton ("home" is the Homepage,
+// "site" is Site settings, which previews the homepage's fonts).
 // Each name must also be listed in TYPES in src/preview/render.astro.
 ['home', 'legal', 'site', 'extra'].forEach((name) => {
   CMS.registerPreviewTemplate(name, livePreview(`/preview/${name}`));
