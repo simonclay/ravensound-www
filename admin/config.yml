@@ -33,8 +33,15 @@ collections:
         label: Homepage
         file: src/content/pages/home.json
         fields:
-          - { name: metaTitle, label: "SEO title", widget: string, required: false, hint: "Shown as the headline in Google results and on the browser tab. Aim for under 60 characters. Leave empty to use the default: Raven Sound | Live sound engineering, PA hire and recording." }
-          - { name: metaDescription, label: "Meta description (for search engines)", widget: text, hint: "The short summary under the title in Google results. Aim for under 160 characters." }
+          - name: seo
+            label: "Search and sharing"
+            widget: object
+            collapsed: true
+            summary: "{{title}}"
+            fields:
+              - { name: title, label: "Page title", widget: string, required: false, hint: "Shown in the browser tab and as the blue link in Google. Keep it under 60 characters. Leave empty for: Raven Sound | Live sound engineering, PA hire and recording." }
+              - { name: description, label: "Description", widget: text, hint: "Shown under the title in Google. One or two sentences, under 160 characters." }
+              - { name: image, label: "Share image", widget: image, required: false, hint: "Shown when the link is posted on Facebook, WhatsApp and so on. 1200 x 630 pixels works best. Leave empty to use the logo." }
           - name: heroImages
             label: "Top of page: background photos"
             label_singular: photo
