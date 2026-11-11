@@ -24,7 +24,7 @@ media_libraries:
           width: 1920
           height: 1920
 
-# Homepage and Site settings: one file each, shown straight in the menu.
+# The Homepage: one file, opened straight from the menu.
 singletons:
   - name: home
     label: Homepage
@@ -136,40 +136,6 @@ singletons:
         field: { name: option, label: Choice, widget: string }
       - { name: messageHint, label: "Contact form: note above the message box", widget: string, required: false }
       - { name: contactThanks, label: "Contact form: thank-you message", widget: text, hint: "Shown in place of the form once a message has been sent." }
-
-
-  - name: site
-    label: Site settings
-    icon: settings
-    file: src/content/settings/site.json
-    fields:
-      - name: footerMenu
-        label: "Footer menu"
-        label_singular: link
-        widget: list
-        required: false
-        summary: "{{label}}{{page}}{{link}}"
-        hint: "Links shown in the footer. Pick one of your extra pages, or type an address. Drag to reorder."
-        fields:
-          - { name: page, label: "Extra page", widget: relation, collection: extra, value_field: "{{slug}}", display_fields: [title], search_fields: [title], required: false }
-          - { name: link, label: "Or another address", widget: string, required: false, hint: "Only if no page is picked above, e.g. /#contact or https://..." }
-          - { name: label, label: "Link text", widget: string, required: false, hint: "Leave empty to use the page heading." }
-      - { name: headingFont, label: "Heading font", widget: string, default: "Metal Mania", hint: "Any font from fonts.google.com. Type its name exactly as shown there, e.g. Oswald. The original is Metal Mania. Changes show on the website about two minutes after saving." }
-      - { name: bodyFont, label: "Body font", widget: string, default: "Barlow Condensed", hint: "Any font from fonts.google.com, typed exactly as shown there, e.g. Roboto Condensed. Narrow (condensed) fonts suit this design best. The original is Barlow Condensed." }
-      - name: footerScripts
-        label: "Footer scripts"
-        label_singular: "script"
-        widget: list
-        required: false
-        summary: "{{name}}"
-        hint: "Extra code that runs on every page of the website, such as a feedback widget, live chat or a marketing tracking code. Only paste code from services you trust. For Google Analytics, use the Google Analytics ID field below instead."
-        fields:
-          - { name: name, label: "Name (for your reference)", widget: string }
-          - { name: code, label: "Code", widget: code, default_language: html, output_code_only: true, allow_language_selection: false }
-          - { name: enabled, label: "Switched on", widget: boolean, default: false }
-          - { name: needsConsent, label: "Only load after cookie consent", widget: boolean, default: true, hint: "Leave on for anything that tracks visitors (analytics, ads, heatmaps, chat widgets that set cookies). Turn off only for scripts that set no cookies." }
-      - { name: analyticsId, label: "Google Analytics ID", widget: string, required: false, hint: "e.g. G-ABC123XYZ. Leave empty to turn off analytics and the cookie banner. Analytics only records visits on the live domain, and only after a visitor accepts cookies." }
-      - { name: cookieBannerText, label: "Cookie banner text", widget: text, required: false, hint: "Shown with Accept / Reject buttons and a link to the cookie policy." }
 
 collections:
   - name: extra
@@ -295,3 +261,40 @@ collections:
       - { name: metaTitle, label: "SEO title", widget: string, required: false, hint: "Shown as the headline in Google results and on the browser tab. Aim for under 60 characters. Leave empty to use the default: the page title followed by | Raven Sound." }
       - { name: metaDescription, label: "Meta description (for search engines)", widget: text, hint: "The short summary under the title in Google results. Aim for under 160 characters." }
       - { name: body, label: "Policy text", widget: markdown }
+
+  - name: settings
+    label: Site settings
+    icon: settings
+    files:
+      - name: site
+        label: Site settings
+        icon: settings
+        file: src/content/settings/site.json
+        fields:
+          - name: footerMenu
+            label: "Footer menu"
+            label_singular: link
+            widget: list
+            required: false
+            summary: "{{label}}{{page}}{{link}}"
+            hint: "Links shown in the footer. Pick one of your extra pages, or type an address. Drag to reorder."
+            fields:
+              - { name: page, label: "Extra page", widget: relation, collection: extra, value_field: "{{slug}}", display_fields: [title], search_fields: [title], required: false }
+              - { name: link, label: "Or another address", widget: string, required: false, hint: "Only if no page is picked above, e.g. /#contact or https://..." }
+              - { name: label, label: "Link text", widget: string, required: false, hint: "Leave empty to use the page heading." }
+          - { name: headingFont, label: "Heading font", widget: string, default: "Metal Mania", hint: "Any font from fonts.google.com. Type its name exactly as shown there, e.g. Oswald. The original is Metal Mania. Changes show on the website about two minutes after saving." }
+          - { name: bodyFont, label: "Body font", widget: string, default: "Barlow Condensed", hint: "Any font from fonts.google.com, typed exactly as shown there, e.g. Roboto Condensed. Narrow (condensed) fonts suit this design best. The original is Barlow Condensed." }
+          - name: footerScripts
+            label: "Footer scripts"
+            label_singular: "script"
+            widget: list
+            required: false
+            summary: "{{name}}"
+            hint: "Extra code that runs on every page of the website, such as a feedback widget, live chat or a marketing tracking code. Only paste code from services you trust. For Google Analytics, use the Google Analytics ID field below instead."
+            fields:
+              - { name: name, label: "Name (for your reference)", widget: string }
+              - { name: code, label: "Code", widget: code, default_language: html, output_code_only: true, allow_language_selection: false }
+              - { name: enabled, label: "Switched on", widget: boolean, default: false }
+              - { name: needsConsent, label: "Only load after cookie consent", widget: boolean, default: true, hint: "Leave on for anything that tracks visitors (analytics, ads, heatmaps, chat widgets that set cookies). Turn off only for scripts that set no cookies." }
+          - { name: analyticsId, label: "Google Analytics ID", widget: string, required: false, hint: "e.g. G-ABC123XYZ. Leave empty to turn off analytics and the cookie banner. Analytics only records visits on the live domain, and only after a visitor accepts cookies." }
+          - { name: cookieBannerText, label: "Cookie banner text", widget: text, required: false, hint: "Shown with Accept / Reject buttons and a link to the cookie policy." }
