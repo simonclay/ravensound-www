@@ -1,0 +1,181 @@
+/* Extra pages built in the CMS: the photo banner and each section type.
+   Shared headings, text, buttons, testimonials and the gallery come from
+   sections.css; colours, fonts and spacing from tokens.css. */
+
+/* ---------- Photo banner with the page heading ---------- */
+
+.rs-page-hero {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: 55svh;
+  overflow: hidden;
+  padding: 9rem var(--section-padding-x) var(--space-12);
+  background: var(--bg-hero-dark);
+}
+
+.rs-page-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1);
+}
+
+/* Darkens the photo towards the bottom, where the heading sits. */
+.rs-page-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.9));
+  pointer-events: none;
+}
+
+.rs-page-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-inline: 0;
+}
+
+.rs-page-hero .rs-title {
+  margin-bottom: var(--space-4);
+}
+
+.rs-page-hero__intro {
+  max-width: 44rem;
+  font-size: var(--text-4xl);
+  color: var(--color-body-on-dark);
+}
+
+/* ---------- Sections ---------- */
+
+.rs-block {
+  padding-block: var(--space-14);
+}
+
+.rs-block + .rs-block {
+  border-top: 1px solid var(--border-dark-soft);
+}
+
+.rs-block--tight,
+.rs-block--tight + .rs-block,
+.rs-block + .rs-block--tight {
+  border-top: 0;
+}
+
+.rs-block--tight {
+  padding-block: var(--space-4);
+}
+
+/* Comfortable line length for reading, lined up with the other sections. */
+.rs-block__narrow > * {
+  max-width: 52rem;
+}
+
+.rs-block__heading {
+  margin-top: 0;
+}
+
+/* Text beside image */
+.rs-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+}
+
+.rs-split--image-left .rs-split__image {
+  order: -1;
+}
+
+.rs-split__image {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.rs-split__image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .rs-split {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .rs-split--image-left .rs-split__image {
+    order: 0;
+  }
+}
+
+/* Buttons */
+.rs-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.rs-btn-outline {
+  border: 1px solid var(--color-pink);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.rs-btn-outline:hover {
+  background: var(--color-pink);
+  color: var(--color-white);
+}
+
+/* FAQ: questions open and close on click */
+.rs-faq {
+  border-top: 1px solid var(--border-dark);
+}
+
+.rs-faq__item {
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.rs-faq__question {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-5);
+  font-size: var(--text-4xl);
+  font-weight: 500;
+  color: var(--color-ink-on-dark);
+  cursor: pointer;
+  list-style: none;
+}
+
+.rs-faq__question::-webkit-details-marker {
+  display: none;
+}
+
+.rs-faq__question::after {
+  content: '+';
+  flex: none;
+  color: var(--color-eyebrow);
+  transition: transform var(--transition-base);
+}
+
+.rs-faq__item[open] .rs-faq__question::after {
+  transform: rotate(45deg);
+}
+
+.rs-faq__answer {
+  padding-bottom: var(--space-6);
+}
+
+/* CMS preview only: the note on a draft page. */
+.rs-page-draft {
+  position: relative;
+  z-index: 60;
+  margin: 6rem var(--section-padding-x) 0;
+}

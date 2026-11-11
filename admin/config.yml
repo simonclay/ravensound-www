@@ -139,6 +139,110 @@ collections:
           - { name: messageHint, label: "Contact form: note above the message box", widget: string, required: false }
           - { name: contactThanks, label: "Contact form: thank-you message", widget: text, hint: "Shown in place of the form once a message has been sent." }
 
+  - name: extra
+    label: Extra pages
+    label_singular: Page
+    icon: post_add
+    description: "Pages of their own, e.g. for a service or an area. Each one needs adding to the footer menu (Site settings) to be linked from the site."
+    folder: src/content/extra-pages
+    create: true
+    format: json
+    extension: json
+    identifier_field: title
+    # The file name is the page's web address: ravensound.co.uk/<slug>/
+    slug:
+      template: "{{slug}}"
+      editable: true
+      hint: "The page's web address after ravensound.co.uk/ (lower case, words joined by hyphens). Once a page is live, changing this breaks links to the old address."
+    summary: "{{title}}{{draft | ternary(' (draft)', '')}}"
+    fields:
+      - { name: title, label: "Page heading", widget: string, hint: "The big heading at the top of the page." }
+      - { name: draft, label: "Draft (hidden from the website)", widget: boolean, default: true, hint: "Untick when the page is ready to go live." }
+      - name: seo
+        label: "Search and sharing"
+        widget: object
+        collapsed: true
+        summary: "{{title}}"
+        fields:
+          - { name: title, label: "Page title", widget: string, required: false, hint: "Shown in the browser tab and as the blue link in Google. Keep it under 60 characters. Leave empty for: page heading | Raven Sound." }
+          - { name: description, label: "Description", widget: text, required: false, hint: "Shown under the title in Google. One or two sentences, under 160 characters." }
+          - { name: image, label: "Share image", widget: image, required: false, hint: "Shown when the link is posted on Facebook, WhatsApp and so on. 1200 x 630 pixels works best. Leave empty to use the logo." }
+      - { name: heroImage, label: "Banner photo", widget: image, required: false, hint: "Shown in black and white behind the page heading." }
+      - { name: intro, label: "Intro line under the heading", widget: text, required: false }
+      - name: sections
+        label: Sections
+        label_singular: section
+        widget: list
+        required: false
+        typeKey: type
+        types:
+          - name: text
+            label: Text
+            description: "A heading (optional) and paragraphs, with bold, links and bullet points."
+            summary: "Text: {{heading}}"
+            fields:
+              - { name: heading, label: Heading, widget: string, required: false }
+              - { name: body, label: Text, widget: markdown, modes: [rich_text], buttons: [bold, italic, link, heading-three, bulleted-list, numbered-list], editor_components: [] }
+          - name: textImage
+            label: Text beside image
+            description: "Text on one side, a photo on the other. On phones the photo sits under the text."
+            summary: "Text beside image: {{heading}}"
+            fields:
+              - { name: heading, label: Heading, widget: string, required: false }
+              - { name: body, label: Text, widget: markdown, modes: [rich_text], buttons: [bold, italic, link, heading-three, bulleted-list, numbered-list], editor_components: [] }
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: "Photo description (read out by screen readers)", widget: string, required: false }
+              - { name: imageSide, label: "Photo on the", widget: select, options: [{ label: Right, value: right }, { label: Left, value: left }], default: right }
+          - name: buttons
+            label: Buttons
+            description: "One or more buttons in a row, e.g. Get a quote."
+            summary: "Buttons"
+            fields:
+              - name: buttons
+                label: Buttons
+                label_singular: button
+                widget: list
+                summary: "{{label}}"
+                fields:
+                  - { name: label, label: "Button text", widget: string }
+                  - { name: link, label: "Links to", widget: string, hint: "Another page: /its-address/. The homepage contact form: /#contact. Another website: its full address starting https://" }
+                  - { name: style, label: Style, widget: select, options: [{ label: "Solid red", value: solid }, { label: "Outline", value: outline }], default: solid }
+          - name: faq
+            label: Questions and answers
+            description: "Questions that open to show their answer when clicked."
+            summary: "Questions and answers: {{heading}}"
+            fields:
+              - { name: heading, label: Heading, widget: string, required: false, default: "Frequently asked questions" }
+              - name: items
+                label: Questions
+                label_singular: question
+                widget: list
+                summary: "{{question}}"
+                fields:
+                  - { name: question, label: Question, widget: string }
+                  - { name: answer, label: Answer, widget: markdown, modes: [rich_text], buttons: [bold, italic, link, bulleted-list], editor_components: [] }
+          - name: testimonials
+            label: Testimonials
+            description: "Pick testimonials from the homepage, so each is only typed in once."
+            summary: "Testimonials: {{heading}}"
+            fields:
+              - { name: heading, label: Heading, widget: string, required: false, default: "What bands say" }
+              - { name: names, label: "Testimonials to show", widget: relation, collection: pages, file: home, value_field: "testimonials.*.name", display_fields: ["testimonials.*.name"], search_fields: ["testimonials.*.name"], multiple: true }
+          - name: gallery
+            label: Photo gallery
+            description: "A sliding strip of photos, enlarged when clicked."
+            summary: "Photo gallery: {{heading}}"
+            fields:
+              - { name: heading, label: Heading, widget: string, required: false }
+              - name: images
+                label: Photos
+                label_singular: photo
+                widget: list
+                summary: "{{alt}}"
+                fields:
+                  - { name: image, label: Photo, widget: image }
+                  - { name: alt, label: "Description (read out by screen readers)", widget: string, required: false }
+
   - name: legal
     label: Legal
     icon: gavel
@@ -167,6 +271,17 @@ collections:
         label: Site settings
         file: src/content/settings/site.json
         fields:
+          - name: footerMenu
+            label: "Footer menu"
+            label_singular: link
+            widget: list
+            required: false
+            summary: "{{label}}{{page}}{{link}}"
+            hint: "Links shown in the footer. Pick one of your extra pages, or type an address. Drag to reorder."
+            fields:
+              - { name: page, label: "Extra page", widget: relation, collection: extra, value_field: "{{slug}}", display_fields: [title], search_fields: [title], required: false }
+              - { name: link, label: "Or another address", widget: string, required: false, hint: "Only if no page is picked above, e.g. /#contact or https://..." }
+              - { name: label, label: "Link text", widget: string, required: false, hint: "Leave empty to use the page heading." }
           - { name: headingFont, label: "Heading font", widget: string, default: "Metal Mania", hint: "Any font from fonts.google.com. Type its name exactly as shown there, e.g. Oswald. The original is Metal Mania. Changes show on the website about two minutes after saving." }
           - { name: bodyFont, label: "Body font", widget: string, default: "Barlow Condensed", hint: "Any font from fonts.google.com, typed exactly as shown there, e.g. Roboto Condensed. Narrow (condensed) fonts suit this design best. The original is Barlow Condensed." }
           - name: footerScripts

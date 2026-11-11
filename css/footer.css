@@ -24,6 +24,23 @@
   height: 6rem;
 }
 
+.rs-footer__menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2) var(--space-8);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.rs-footer__menu a {
+  color: var(--color-ink-on-dark);
+}
+
+.rs-footer__menu a:hover {
+  color: var(--color-white);
+}
+
 .rs-footer__legal {
   display: flex;
   flex-wrap: wrap;

@@ -3,10 +3,13 @@
 // opens it larger in a lightbox, which has its own arrows and closes with
 // Esc, the cross or a click outside the photo. Without this script the strip
 // still scrolls and each photo links to the image file.
+// Each strip on the page (the homepage has one; extra pages can have
+// several) works on its own.
 export function initGallery() {
-  const gallery = document.querySelector('[data-gallery]');
-  if (!gallery) return;
+  document.querySelectorAll('[data-gallery]').forEach(setUpGallery);
+}
 
+function setUpGallery(gallery) {
   const track = gallery.querySelector('[data-gallery-track]');
   const slides = [...gallery.querySelectorAll('[data-gallery-slide]')];
   const prev = gallery.querySelector('[data-gallery-prev]');
